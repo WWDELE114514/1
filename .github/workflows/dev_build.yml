@@ -1,9 +1,12 @@
 name: Publish Development Build
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all   # 👈 新增这一行
 
     steps:
       - name: Checkout Repository
@@ -11,17 +14,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 21
 
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Clean caches
+        run: rm -rf ~/.gradle/caches .gradle build .fabric
+
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --refresh-dependencies --no-daemon --stacktrace --info
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -32,4 +38,3 @@ jobs:
           prerelease: true
           files: |
             ./build/libs/*.jar
- 
