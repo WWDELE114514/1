@@ -5,9 +5,9 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.render.OutputTarget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderSetup;
-import net.minecraft.client.render.OutputTarget;
 import net.minecraft.util.Identifier;
 
 @UtilityClass

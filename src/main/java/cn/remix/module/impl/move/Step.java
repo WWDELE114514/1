@@ -1,12 +1,12 @@
 package cn.remix.module.impl.move;
 
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributes;
 import cn.remix.event.base.annotation.EventTarget;
 import cn.remix.event.impl.MotionEvent;
 import cn.remix.module.Category;
 import cn.remix.module.Module;
 import cn.remix.module.value.impl.ModeValue;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
 
 public final class Step extends Module {
     private final ModeValue mode = new ModeValue("Mode", "Vanilla", "Vanilla");

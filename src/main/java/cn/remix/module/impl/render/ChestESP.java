@@ -14,7 +14,6 @@ import net.minecraft.block.entity.EnderChestBlockEntity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEventS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.chunk.WorldChunk;
 
 import java.awt.*;
