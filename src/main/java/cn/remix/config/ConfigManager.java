@@ -1,9 +1,11 @@
 package cn.remix.config;
 
+import cn.remix.Client;
 import cn.remix.config.impl.ModuleConfig;
 import cn.remix.util.IMinecraft;
 import lombok.Getter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,23 @@ public final class ConfigManager implements IMinecraft {
                 .filter(config -> config.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<String> getAvailableConfigs() {
+        List<String> configNames = new ArrayList<>();
+        File directory = new File(Client.name, "configs");
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
+            if (files != null) {
+                for (File file : files) {
+                    String name = file.getName();
+                    configNames.add(name.substring(0, name.length() - 5));
+                }
+            }
+        }
+
+        if (configNames.isEmpty()) configNames.add("Default");
+        return configNames;
     }
 
     public void addConfigs(final Config... configsArray) {

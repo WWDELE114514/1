@@ -44,7 +44,7 @@ public class RotationManager implements IMinecraft {
         Scaffold scaffold = instance.getModuleManager().getModule(Scaffold.class);
 
         if (scaffold.isEnabled() && scaffold.isCanRotation() && scaffold.getRotations() != null) {
-            setRotations(scaffold.getRotations(), scaffold.getRotationSpeed().getValue(), scaffold.getMovementFix().getValue() ? MovementCorrection.Silent : MovementCorrection.None);
+            setRotations(scaffold.getRotations(), scaffold.getRotationSpeed(), scaffold.getMovementFix().getValue() ? MovementCorrection.Silent : MovementCorrection.None);
         } else if (aura.isEnabled() && aura.getTarget() != null && aura.getRotations() != null) {
             setRotations(aura.getRotations(), aura.getRotationSpeed().getValue(), aura.getMovementFixMode().is("None") ? MovementCorrection.None : (aura.getMovementFixMode().is("Silent") ? MovementCorrection.Silent : MovementCorrection.Strict));
         } else {

@@ -50,7 +50,7 @@ public final class MultiBoolComponent extends Component {
             BoolValue bool = subValues.get(i);
             font.drawString(context, bool.getName(), x + 4.0f, y + offset + (14.0f - font.getHeight()) / 2.0f + 0.5f, new Color(170, 170, 170, alpha).getRGB());
             animations[i].run(bool.getValue() ? 1.0 : 0.0);
-            Render2D.drawRect(context, x + width - 11.0f, y + offset + 3.5f, 7.0f, 7.0f, ColorUtil.applyAlpha(ColorUtil.interpolate(new Color(58, 58, 63, alpha).getRGB(), parent.getPanel().getAccent(), animations[i].getValue().floatValue()), alpha));
+            Render2D.drawRect(context, x + width - 11.0f, y + offset + 3.5f, 7.0f, 7.0f, ColorUtil.applyAlpha(ColorUtil.interpolate(new Color(58, 58, 63, alpha).getRGB(), parent.getModulePanel().getAccent(), animations[i].getValue().floatValue()), alpha));
             offset += 14.0f;
         }
     }

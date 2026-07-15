@@ -37,7 +37,7 @@ public final class ModeComponent extends Component {
 
         int alpha = (int) (255.0f * finalProgress);
         font.drawString(context, mv.getName(), x + 4.0f, textY, new Color(204, 204, 204, alpha).getRGB());
-        font.drawString(context, mv.getValue(), x + width - 4.0f - font.getStringWidth(mv.getValue()), textY, ColorUtil.applyAlpha(parent.getPanel().getAccent(), alpha));
+        font.drawString(context, mv.getValue(), x + width - 4.0f - font.getStringWidth(mv.getValue()), textY, ColorUtil.applyAlpha(parent.getModulePanel().getAccent(), alpha));
     }
 
     @Override

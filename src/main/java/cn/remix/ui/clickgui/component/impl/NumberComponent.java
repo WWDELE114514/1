@@ -49,7 +49,7 @@ public final class NumberComponent extends Component {
         float ratio = animation.getValue().floatValue();
 
         Render2D.drawRect(context, x + 4, y + 14, barW, 2, ColorUtil.applyAlpha(new Color(58, 58, 63, alpha).getRGB(), alpha));
-        Render2D.drawRect(context, x + 4, y + 14, barW * ratio, 2, ColorUtil.applyAlpha(parent.getPanel().getAccent(), alpha));
+        Render2D.drawRect(context, x + 4, y + 14, barW * ratio, 2, ColorUtil.applyAlpha(parent.getModulePanel().getAccent(), alpha));
         Render2D.drawRect(context, x + 4 + barW * ratio - 1, y + 12, 3, 6, ColorUtil.applyAlpha(Color.WHITE.getRGB(), alpha));
     }
 
