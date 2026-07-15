@@ -210,7 +210,6 @@ public class HUD extends Module {
                 font16.drawStringWithShadow(context, modules.get(i).getName(), boxX + 2, boxY + i * itemHeight + 1.5f, modules.get(i).isEnabled() ? -1 : Color.LIGHT_GRAY.getRGB());
             }
             Render2D.endScissor(context);
-
         }
     }
 
