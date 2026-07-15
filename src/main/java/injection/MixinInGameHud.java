@@ -3,13 +3,9 @@ package injection;
 import cn.remix.event.impl.Render2DEvent;
 import cn.remix.module.impl.render.HUD;
 import cn.remix.util.IMinecraft;
-import cn.remix.util.misc.TimerUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.gui.render.state.ItemGuiElementRenderState;
-import net.minecraft.client.gui.render.state.TextGuiElementRenderState;
-import net.minecraft.client.gui.render.state.special.SpecialGuiElementRenderState;
 import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,26 +17,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinInGameHud implements IMinecraft {
 
     @Unique
-    private final GuiRenderState cachedHudState = new GuiRenderState();
+    private GuiRenderState state;
 
     @Unique
-    private final TimerUtil timer = new TimerUtil();
+    private static final long cache = 1_000_000_000L / 120L; // 120hz
+
+    @Unique
+    private long nano = System.nanoTime();
 
     @Inject(method = "render", at = @At(value = "HEAD"))
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (mc.player == null || mc.world == null) return;
 
-        if (timer.hasTimeElapsed(1000L / 120)) {
-            timer.reset();
-            cachedHudState.clear();
-            DrawContext cacheContext = new DrawContext(mc, cachedHudState, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight());
+        if (state == null) state = new GuiRenderState();
+
+        long now = System.nanoTime();
+        if (now - nano >= cache) {
+            nano = now;
+            state.clear();
+            DrawContext cacheContext = new DrawContext(mc, state, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight());
             instance.getEventManager().call(new Render2DEvent(cacheContext, tickCounter.getTickProgress(false)));
         }
 
-        cachedHudState.forEachSimpleElement(context.state::addSimpleElement, GuiRenderState.LayerFilter.ALL);
-        cachedHudState.forEachTextElement(context.state::addText);
-        cachedHudState.forEachItemElement(context.state::addItem);
-        cachedHudState.forEachSpecialElement(context.state::addSpecialElement);
+        state.forEachSimpleElement(context.state::addSimpleElement, GuiRenderState.LayerFilter.ALL);
+        state.forEachTextElement(context.state::addText);
+        state.forEachItemElement(context.state::addItem);
+        state.forEachSpecialElement(context.state::addSpecialElement);
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
