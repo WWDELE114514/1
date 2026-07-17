@@ -7,21 +7,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1. 先装 Java 21，确保后续步骤使用正确的 JDK
       - uses: actions/setup-java@v4
         with:
           java-version: 21
           distribution: 'temurin'
 
-      # 2. 再设置 Gradle 并生成 wrapper（此时已使用 Java 21）
+      # 使用 Gradle 9.5.0（匹配 fabric-loom 1.17-SNAPSHOT 的要求）
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '9.2.0'
-      - run: gradle wrapper
+          gradle-version: '9.5.0'
 
-      - run: chmod +x gradlew
       - run: rm -rf ~/.gradle/caches .gradle build .fabric
-      - run: ./gradlew build --refresh-dependencies --no-daemon
+      - run: gradle build --refresh-dependencies --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
