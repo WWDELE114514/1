@@ -6,15 +6,18 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v4
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '9.2.0'
-      - run: gradle wrapper
 
+      # 1. 先装 Java 21，确保后续步骤使用正确的 JDK
       - uses: actions/setup-java@v4
         with:
           java-version: 21
           distribution: 'temurin'
+
+      # 2. 再设置 Gradle 并生成 wrapper（此时已使用 Java 21）
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.0'
+      - run: gradle wrapper
 
       - run: chmod +x gradlew
       - run: rm -rf ~/.gradle/caches .gradle build .fabric
